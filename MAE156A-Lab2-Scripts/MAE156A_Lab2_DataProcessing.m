@@ -202,3 +202,25 @@ xlabel('Time (sec)');
 ylabel('Filtered Velocity (RPM)');
 title('Config B: Experimental vs. Theoretical');
 legend('Theoretical', 'Experimental', Location = 'southeast');
+
+%% Personal Plot
+M6 = readmatrix('EncoderData_ConfigBSpaced.txt');
+
+t6 = M6(6:end, 1)/1e6;
+Y6 = M6(6:end, 2)/48*2*pi;
+
+tc6 = diff(t6);
+
+Vf6 = 0;
+for i = 2:length(Y6)
+    Vf6(i) = (((Y6(i)-Y6(i-1)) + (Tf(3)*Vf6(i-1)))/((Tf(3) + tc6(i-1))));
+end
+
+figure(9)
+plot(t4, Vf4*60/(2*pi), Color = [0 0 1]);
+hold on
+plot(t6, Vf6*60/(2*pi), Color = [.9 0 .1]);
+title('Config B vs. Config B Spaced');
+xlabel('Time (sec)');
+ylabel('Filtered Velocity (RPM)');
+legend('Config B', 'Config B Spaced', Location = 'southeast');
