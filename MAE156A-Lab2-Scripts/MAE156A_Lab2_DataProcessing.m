@@ -178,6 +178,10 @@ JB = Jm + If + Ib;
 tcb = W_nl*JB/tau_s;
 WB = @(t) (W_nl*(1-exp((-t/tcb))))*((60)/(2*pi));
 
+% Configuration C
+
+
+
 
 %% Plot Six: Config A Experimental and Theoretical
 
