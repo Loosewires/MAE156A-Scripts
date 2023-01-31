@@ -129,7 +129,7 @@ clc
         Tau_s_21 = K/R*(12*.5); % Stall torque [Nm]
         W_nl_21 = 12*.5/K; % No load speed [rad/s]
         J_21 = 1.03e-5; % Config 1 rotational inertia [kgm^2]
-        Tau_fm_21 = 5.94e-4; % Motor torque required to overcome friction [Nm]
+        Tau_fm_21 = 2.97e-4; % Motor torque required to overcome friction [Nm]
         W_nl_21 = W_nl_21*(Tau_s_21-Tau_fm_21)/Tau_s_21; % No load speed with friction [rad/s]
         TC_21 = W_nl_21 * J_21 / Tau_s_21; % Config 1 time constant
         W_21 = @(t) W_nl_21*(1-exp(-t/TC_21))*60/(2*pi); % Closed form solution
