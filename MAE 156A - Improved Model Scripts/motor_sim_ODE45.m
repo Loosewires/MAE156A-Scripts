@@ -7,29 +7,32 @@ pl_flag = false; % true (1) or false (0) to use to turn plotting on or off
 w_nl = param_fixed.wn*config.pwm/100; % No load speed in [rad/s] at PWM percentatge
 tau_s =  param_fixed.trq_stall*config.pwm/100; % Stall torque in [N-m] at PWM percentage
 I_r = param_var.j_eff;  % effective rotational inertia reflected to motor in [kg*m^2]
-rs = .002; % Radius of output shaft [m]
-g = 9.8; % Acceleration due to gravity [m/s^2]
-Lc = .0099; % Length from load to left part [m]
-Lb = .0066; % length from left part to right part [m]
 rho_air = 1.204; % Density of air at 20C [kg/m^3]
 A_cross = .005*.01; % Cross sectional area of bolt/nuts [m^2]
-r_bolt = .002; % Radius of bolt [m]
+r_bolt = .0508; % Bolt distance from center of flywheel [m]
+
+% Calculate number of bolts
+nbolt = 0;
+for i = 1:length(config.nut_ar)
+    if config.nut_ar(i) == 0 
+    else
+        nbolt = nbolt + 1;
+    end
+end
 
 % Simulation Parameters are hard coded for convinence
 tspan = [0 10]; % Time for simulation
 
+% Calculate Constant part of Drag for number of bolts
+Tau_d = 1/2*rho_air*A_cross*r_bolt^3/param_fixed.ngear^2;
+
 % Initial conditions
 w0 = 0; % Initial angular velocity [rad/s]
 
-% Calculate Friction
-Tau_f = param_var.mu*rs*g*param_var.mfw/param_fixed.ngear * (2*(Lc+Lb)/Lb - 1);
-
-% Calculate Constant part of Drag
-Tau_d = 1/2*rho_air*A_cross*r_bolt^3/param_fixed.ngear^2;
 
 % ODE45 Sim
 
-[t,w] = ode45(@(t,w) 1/I_r*((tau_s-w*tau_s/w_nl)- Tau_f - param_var.cd*Tau_d*w^2), tspan, w0);
+[t,w] = ode45(@(t,w) 1/I_r*((tau_s-w*tau_s/w_nl)- param_var.Tau_f - nbolt*(param_var.cd*Tau_d*w^2)), tspan, w0);
 
 tr_sim = 0;
 wterm_sim = 0;

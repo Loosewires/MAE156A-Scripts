@@ -9,7 +9,7 @@ pl_flag = false; % true (1) or false (0) to use to turn plotting on or off
 clear vel time_exp velFilteredRealTime
 
 % calculate flywheel mass properties
-[param_var.j_eff , param_var.mfw] = flywheel_mass_prop(config, param_var, param_fixed);
+[param_var.j_eff , param_var.mfw, param_var.Tau_f] = flywheel_mass_prop(config, param_var, param_fixed);
 
 filename = config_ar(iconfig).exp_data_filename;  % 'testA100.txt';
 fileID = fopen(filename);

@@ -1,8 +1,14 @@
-function [J_eff , mfw] = flywheel_mass_prop(config, param_var, param_fixed)
+function [J_eff , mfw, Tau_f] = flywheel_mass_prop(config, param_var, param_fixed)
 %
 % This function calcualte the mass properties of the flywheel and uses the value to return
 % the effective inertia of the system and the mass of the flywheel.
 % Assumption: The nuts and bolts can be treated as point masses.
+
+% Parameters
+rs = .002; % Radius of output shaft [m]
+g = 9.8; % Acceleration due to gravity [m/s^2]
+Lc = .0099; % Length from load to left part [m]
+Lb = .0066; % length from left part to right part [m]
 
 nbolt = 0;
 for i = 1:length(config.nut_ar)
@@ -28,6 +34,8 @@ mfw = mfw_nobolts + nbolt*param_fixed.bolt_mass + nnut*param_fixed.nut_mass + pa
 
 % Total inertia of flywheel + all components in [kg*m^2]
 J_eff = (J_disk + J_hub + nbolt*J_bolt + nnut*J_nut) / ((param_fixed.ngear^2)) + J_motor_internal;
-    
+
+% Calculate Friction
+Tau_f = param_var.mu*rs*g*mfw/param_fixed.ngear * (2*(Lc+Lb)/Lb - 1);
 
 end
