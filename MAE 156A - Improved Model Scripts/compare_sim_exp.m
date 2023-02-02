@@ -3,7 +3,7 @@
 
 %% This section plots and filters collected data
 
-pl_flag = true; % true (1) or false (0) to use to turn plotting on or off
+pl_flag = false; % true (1) or false (0) to use to turn plotting on or off
 
 % Clear Variables
 clear vel time_exp velFilteredRealTime

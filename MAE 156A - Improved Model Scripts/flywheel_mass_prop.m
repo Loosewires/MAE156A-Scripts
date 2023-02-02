@@ -21,7 +21,7 @@ end
 
 nnut = sum(config.nut_ar); % number of nuts
 
-mfw_nobolts = 5.65e-2; % [kg]
+mfw_nobolts = param_fixed.fw_mass; % [kg]
     
 J_disk = 7.58e-5; % inertia of flywheel disk [kg*m^2]
 J_bolt = 2e-5; % inertia due to bolts [kg*m^2]

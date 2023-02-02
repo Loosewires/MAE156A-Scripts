@@ -6,18 +6,17 @@ clear; clc; close all
 
 %% Receive User Inputs
 
-    config.nut_ar = [2 2 2 2 2 2 2 2]; % Receive nut configuration
-    % This is a user input in code, publishing feature does not allow
-    config.pwm = 100;
-    % This is a user input in code, publishing feature does not allow
-    param_var.jm = 1.1e-6; % Motor shaft inertia [kg*m^2]
-    param_var.mu = 0.254; % Coefficient of Friction
-    param_var.cd = 0.67; % Coefficient of Drag
+    config.nut_ar = input('Please input nut configuration: '); % Receive nut configuration
+    config.pwm = input('Please input PWM value: '); % Receive pwm value
+    filename = input('Please input filename: ', 's'); % Receive filename
+    param_var.jm = 1.3e-6; % Motor shaft inertia [kg*m^2]
+    param_var.mu = 0.18; % Coefficient of Friction
+    param_var.cd = 1.3; % Coefficient of Drag
     param_var.tau_f = 0; % Motor friction [Nm]
     
     param_fixed.ngear = 4.4;                    % Gear ratio
-    param_fixed.wn = 8200*2*pi/60;              % No load motor speed at 100% PWM in [rad/s]
-    param_fixed.trq_stall = 0.17*0.0980665;     % Motor stall torque at 100% PWM [Nm]
+    param_fixed.wn = 8150*2*pi/60;              % No load motor speed at 100% PWM in [rad/s]
+    param_fixed.trq_stall = 0.0169;             % Motor stall torque at 100% PWM [Nm]
     param_fixed.nut_mass = 3.20e-3;             % Mass of a single nut [kg]
     param_fixed.bolt_mass = 7.74e-3;            % Mass of a single bolt [kg]
     param_fixed.fw_mass = 5.53e-2;              % Flywheel mass [kg]
@@ -31,7 +30,7 @@ clear; clc; close all
 
 %% Open Collecteded Data
 
-    collectedData = readmatrix('EncoderData_Config33.txt');
+    collectedData = readmatrix(filename);
     time_exp = collectedData(1:end,1)./1e6;    % [s]
     position_exp = collectedData(1:end,2);    % [counts]
     npt = length(time_exp);
