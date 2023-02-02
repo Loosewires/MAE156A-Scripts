@@ -3,7 +3,7 @@
 
 %% This section plots and filters collected data
 
-pl_flag = false; % true (1) or false (0) to use to turn plotting on or off
+pl_flag = true; % true (1) or false (0) to use to turn plotting on or off
 
 % Clear Variables
 clear vel time_exp velFilteredRealTime
@@ -38,7 +38,7 @@ if pl_flag == true
     figure(3)
     plot(time_exp(2:end),vel*60/48, 'Color',[0.9290 0.6940 0.1250])  % Note, 60/48 converts counts/rev to rpm
     xlabel('Time [s]')
-    ylabel('Angular Velocity RMP)')
+    ylabel('Angular Velocity RPM)')
     title('Experimental Motor Velocity vs. Time')
     ylim([0,inf])
     

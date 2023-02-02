@@ -138,17 +138,17 @@ nconfig = iconfig;
 %% Loop to find optimal coefeciant of friction, param_var.mu
 % The assignment will required nested loops to find optimzal values for mu, Jm, and Cd
 
-% mu_low_opt = 0.24;
-% mu_high_opt = 0.26;
-% mu_step_opt = 0.001;
-% mu_vec = mu_low_opt:mu_step_opt:mu_high_opt;
-% mu_len = length(mu_vec);
+mu_low_opt = 0.24;
+mu_high_opt = 0.26;
+mu_step_opt = 0.001;
+mu_vec = mu_low_opt:mu_step_opt:mu_high_opt;
+mu_len = length(mu_vec);
 
-cd_low_opt = 0.66;
-cd_high_opt = 0.68;
-cd_step_opt = 0.005;
-cd_vec = cd_low_opt: cd_high_opt: cd_step_opt;
-cd_len = length(cd_vec);
+% cd_low_opt = 0.66;
+% cd_high_opt = 0.68;
+% cd_step_opt = 0.005;
+% cd_vec = cd_low_opt: cd_high_opt: cd_step_opt;
+% cd_len = length(cd_vec);
 
 % jm_low_opt = 1e-6;
 % jm_high_opt = 5e-6;
@@ -160,17 +160,17 @@ tic
 iopt = 1; % mu optimization counter
 % iopt2 = 1; % Cd optimization counter
 
-for cd = cd_low_opt:cd_step_opt:cd_high_opt
+for mu = mu_low_opt:mu_step_opt:mu_high_opt
 %     disp([Cd mu]
-    disp(cd)
-    param_var.cd = cd;
+    disp(mu)
+    param_var.mu = mu;
     iconfig = 1;
     for iconfig = 1:nconfig
         config = config_ar(iconfig);
         compare_sim_exp  % run and compare experimental to simulation
     end
     err_metric_mean_opt_ar(iopt) = mean(err_metric_ar);
-    cd_opt_ar(iopt) = cd;
+    mu_opt_ar(iopt) = mu;
     
     iopt = iopt + 1;
 end
@@ -185,7 +185,7 @@ toc
 % fprintf('Mu of %.4f \n \n', mu_vec(c-mu_len*(r-1)));
 
 figure(4) 
-plot(cd_opt_ar,err_metric_mean_opt_ar)
+plot(mu_opt_ar,err_metric_mean_opt_ar)
 xlabel('Coefficient of Friction - \mu');
 ylabel('Mean Error Metric');
 title('Error Metric as a Function of Friction Coefficient');
