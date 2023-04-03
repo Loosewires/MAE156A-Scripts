@@ -26,7 +26,7 @@ clear; clc; close all
 
 %% Calculate Flywheel Parameters
 
-    [param_var.j_eff , param_var.mfw, param_var.Tau_f] = flywheel_mass_prop(config, param_var, param_fixed);
+    [param_var.j_eff, param_var.mfw, param_var.Tau_f] = flywheel_mass_prop(config, param_var, param_fixed);
 
 %% Open Collecteded Data
 
@@ -58,23 +58,23 @@ clear; clc; close all
 
 %% Motor Simulation and Error Metrics
 
-    [w_sim_ar, t_sim_ar, tr_sim, wterm_sim] = motor_sim_ODE45(config, param_var, param_fixed);
+    [w_sim_arOpt, t_sim_arOpt, tr_simOpt, wterm_simOpt] = motor_sim_ODE45(config, param_var, param_fixed);
     
     [tr_exp, wterm_exp] = find_metrics(velFilteredRealTime*60/48,time_exp(2:end));
     figure(1)
     xline(tr_exp);
     yline(wterm_exp, 'b--');
     
-    w_term_err = abs(wterm_exp-wterm_sim)/wterm_exp; % percent error in terminal velocity
-    tr_err = abs(tr_exp-tr_sim)/tr_exp; % percent error in rise time
+    w_term_err = abs(wterm_exp-wterm_simOpt)/wterm_exp; % percent error in terminal velocity
+    tr_err = abs(tr_exp-tr_simOpt)/tr_exp; % percent error in rise time
     err_metric = tr_err + 4*w_term_err; % error metric
 
     figure(1)
-    title_line1 = ['Experimental Velocity (Filtered) vs Simulated Velocity (ODE45) [RPM]'];
+    title_line1 = ['Experimental Velocity (Filtered) vs Optimal jm, mu Optimal cd Simulated Velocity (ODE45) [RPM]'];
     title_line2 = ['Wterm error = ' num2str(w_term_err) '%, tr error = ' num2str(tr_err) '%, Error metric = ' num2str(err_metric)]; % display terminal velocoty with 4 significant figures  
     title_line3 = [' Jm = ' num2str(param_var.jm) ' (kgm^2), Cd = ' num2str(param_var.cd) ', mu = ' num2str(param_var.mu)];
     title({title_line1;title_line2;title_line3})
 
     xlabel('Time [s]');
     ylabel('Angular Velocity [rpm]');
-    legend('Experimental','Simulation','Location','best')
+    legend('Experimental','Optimal jm, mu Optimal cd Simulation','Location','best')

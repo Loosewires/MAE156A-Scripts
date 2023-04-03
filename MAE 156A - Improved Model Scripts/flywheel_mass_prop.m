@@ -1,4 +1,4 @@
-function [J_eff , mfw, Tau_f] = flywheel_mass_prop(config, param_var, param_fixed)
+function [J_eff, mfw, Tau_f] = flywheel_mass_prop(config, param_var, param_fixed)
 %
 % This function calcualte the mass properties of the flywheel and uses the value to return
 % the effective inertia of the system and the mass of the flywheel.

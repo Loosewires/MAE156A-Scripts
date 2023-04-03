@@ -1,7 +1,7 @@
 function [w_sim_ar, t_sim_ar, tr_sim, wterm_sim] = motor_sim_ODE45(config, param_var, param_fixed)
 % ODE45 method simulation of motor
 
-pl_flag = false; % true (1) or false (0) to use to turn plotting on or off
+pl_flag = true; % true (1) or false (0) to use to turn plotting on or off
 
 % Motor Parameters
 w_nl = param_fixed.wn*config.pwm/100; % No load speed in [rad/s] at PWM percentatge
